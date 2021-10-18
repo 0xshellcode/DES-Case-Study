@@ -40,4 +40,5 @@ export const getStringFromMatrix = (matrix) => {
             str += matrix[i][j];
         }
     }
+    return str
 }
