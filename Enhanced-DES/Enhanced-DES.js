@@ -4,6 +4,12 @@ const p8Positions = [6, 3, 7, 4, 8, 5, 10, 9];
 const p8Positions4CipherText = [2, 6, 3, 1, 4, 8, 5, 7];
 const inversep8Positions4CipherText = [4, 1, 3, 5, 7, 2, 8, 6];
 const expansionPermutation = [4, 1, 2, 3, 2, 3, 4, 1];
+const p4PositionsCipherText = [2, 4, 3, 1];
+
+const filler = (binaryText, desiredLenght) => {
+  let difference = binaryText.length - desiredLenght;
+  return difference !== 0 ? '0' * difference + binaryText : '';
+};
 
 const permutations = (permutedPositions, stringToPermute) => {
   const result = permutedPositions
@@ -52,26 +58,38 @@ const p8permutedClearText = permutations(p8Positions4CipherText, clearText);
 
 const leftPart = p8permutedClearText.slice(0, 4);
 const rightPart = p8permutedClearText.slice(4, 9);
-permutedRightPart = permutations(expansionPermutation, rightPart);
+const permutedRightPart = permutations(expansionPermutation, rightPart);
 
 // XOR Operatation
 
-const xorPermutation = (halfClearText, key) => {
-  return ((parseInt(halfClearText, 2) ^ parseInt(key, 2)) >>> 0).toString(2);
+const xorPermutation = (plainText, key) => {
+  return ((parseInt(plainText, 2) ^ parseInt(key, 2)) >>> 0).toString(2);
 };
 const xoredClearTextWithKey1 = xorPermutation(permutedRightPart, p8PermutedKey);
 
 // S-Box Operation
 
-outerBits = (stringHalf) => {
+const outerBits = (stringHalf) => {
   return stringHalf.charAt(0) + stringHalf.slice(-1);
 };
 
-innerBits = (stringHalf) => {
-  return stringHalf.slice(1, -2);
+const innerBits = (stringHalf) => {
+  return stringHalf.slice(1, 3);
 };
 
 // S-Box
+
+const sboxing = (substring, sbox) => {
+  const li = parseInt(outerBits(substring), 2);
+  const ri = parseInt(innerBits(substring), 2);
+  if (li < 0 || li > 3 || ri < 0 || ri > 3) {
+    console.log('Error Indices S-box');
+  }
+  return sbox[li][ri].toString(2);
+};
+
+// 00 -> Inner
+// 10 -> Outer
 
 const sBox0 = [
   [1, 0, 3, 2],
@@ -87,10 +105,17 @@ const sBox1 = [
   [2, 1, 0, 3],
 ];
 
-xoredHalfRightPart = xoredClearTextWithKey1.slice(0, 4);
-xoredHalfLeftPArt = xoredClearTextWithKey1.slice(4, 8);
+const xoredHalfLeftPart = xoredClearTextWithKey1.slice(0, 4);
+const xoredHalfRightPart = xoredClearTextWithKey1.slice(4, 8);
 
-xoredHaldRightPartInnerBits;
+const xoredHalfLeftPartInnerBits = innerBits(xoredHalfLeftPart);
+const xoredHalfLeftPartOuterBits = outerBits(xoredHalfLeftPart);
+
+const xoredHalfRightPartInnerBits = innerBits(xoredHalfRightPart);
+const xoredHalfRightPartOuterBits = outerBits(xoredHalfRightPart);
+
+const sBox0Output = filler(sboxing(xoredHalfLeftPart, sBox0), 2);
+const sBox1Output = filler(sboxing(xoredHalfRightPart, sBox1), 2);
 
 console.log(`PlainText: ${clearText}`);
 console.log(`Initial Permutation: ${p8permutedClearText}`);
@@ -99,9 +124,32 @@ console.log(`Right Part: ${rightPart}`);
 console.log(`Permuted/Expanded Right Part: ${permutedRightPart}`);
 console.log(`Xored Right Part with Subkey 1 (P8): ${xoredClearTextWithKey1}`);
 
-console.log(xoredClearTextWithKey1.charAt(0));
-console.log(xoredClearTextWithKey1.slice(-1));
+console.log(`Left Part: ${xoredHalfLeftPart}`);
 
-console.log(xoredClearTextWithKey1.slice(1, -1));
-console.log(xoredClearTextWithKey1.slice(0, 4));
-console.log(xoredClearTextWithKey1.slice(4, 8));
+console.log(`Left Part Inner Bits: ${xoredHalfLeftPartInnerBits}`);
+console.log(`Left Part Outer Bits: ${xoredHalfLeftPartOuterBits}`);
+
+console.log(`Right Part: ${xoredHalfRightPart}`);
+
+console.log(`Right Part Inner Bits:${xoredHalfRightPartInnerBits}`);
+console.log(`Right Part Outer Bits: ${xoredHalfRightPartOuterBits}`);
+
+console.log(`S-Box0 Output: ${sBox0Output}`);
+console.log(`S-Box1 Output: ${sBox1Output}`);
+
+// Permutation (4)
+
+const joinedSboxesOutput = sBox0Output + sBox1Output;
+const p4permutationSboxesOutput = permutations(
+  p4PositionsCipherText,
+  joinedSboxesOutput
+);
+
+console.log(
+  `Permutation P4 on S-boxes (F Function Output): ${p4permutationSboxesOutput}`
+); // This is the output of the function
+
+// XOR Operation Between
+
+const fResult = filler(xorPermutation(p4permutationSboxesOutput, leftPart), 4);
+console.log(`F-Result: ${fResult}`);
