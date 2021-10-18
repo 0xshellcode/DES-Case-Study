@@ -24,3 +24,5 @@ export const sBox1 = [
 
 export const P4 = [2,4,3,1];
 export const INVP = [4,1,3,5,7,2,8,6];
+
+//decryption
