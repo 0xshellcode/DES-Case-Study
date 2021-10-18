@@ -32,3 +32,12 @@ export const transposeColumns = (matrix, order) => {
     }
     return result;
 }
+
+export const getStringFromMatrix = (matrix) => {
+    let str = ''
+    for (let i = 0; i < matrix.length; i++){
+        for (let j = 0; j < matrix[i].length; j++){
+            str += matrix[i][j];
+        }
+    }
+}
