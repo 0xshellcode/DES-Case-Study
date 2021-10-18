@@ -4,7 +4,6 @@ import { plainText } from "./constants.mjs";
 import { initialKey, p10Positions, p8Positions } from "./constants.mjs";
 import { leftShiftOperation, permutations } from "./keyOps.mjs";
 import { sw } from "./textOps.mjs";
-import { resize } from "./textOps.mjs";
 import { f } from "./textOps.mjs";
 
 const p10PermutedKey = permutations(p10Positions, initialKey);
@@ -28,4 +27,5 @@ const fOutput2 = f(ls2, rs2, p8PermutedKey2);
 console.log(`fOutput2: ${fOutput2}`);
 const afterINVP = permutations(INVP, fOutput2);
 console.log(`afterINVP: ${afterINVP}`);
+//encryption done
 
