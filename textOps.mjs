@@ -11,10 +11,8 @@ export const bigF = (right, subkey) => {
     const xored = xor(expandedText, subkey);
     const leftSide = xored.slice(0,4);
     const rightSide = xored.slice(4,8);
-    const reducedLeft = sboxing(leftSide, sBox0)
-    const reducedRight = sboxing(rightSide, sBox1)
-    console.log(`reducedLeft: ${reducedLeft}`);
-    console.log(`reducedRight: ${reducedRight}`);
+    const reducedLeft = sboxing(leftSide, sBox0);
+    const reducedRight = sboxing(rightSide, sBox1);
     return permutations(P4, reducedLeft+reducedRight);
   }
   
@@ -26,7 +24,7 @@ const sboxing = (substring, sbox) => {
   const li = parseInt(outerBits(substring), 2);
   const ri = parseInt(innerBits(substring), 2);
   if(li<0 || li>3 || ri<0 || ri>3){console.log('Error indices Sbox')}
-  return sbox[li][ri].toString(2);
+  return sbox[li][ri].toString(2).length == 1 ? '0'+sbox[li][ri].toString(2) : sbox[li][ri].toString(2);
 }
 
 const outerBits = (stringHalf) => {
