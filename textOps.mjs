@@ -7,8 +7,6 @@ import { permutations } from "./keyOps.mjs";
 export const f = (left, right, p8PermutedKey) => {
   const modifiedRight = bigF(right, p8PermutedKey);
   const xored = xor(left, modifiedRight, 4);
-  console.log('xored', xored);
-  console.log('right', right);
   return xored + right;
 }
 
@@ -54,3 +52,7 @@ const outerBits = (stringHalf) => {
 const innerBits = (stringHalf) => {
   return resize(stringHalf.slice(1, -1), 2);
 };
+
+export const sw = (str) => {
+  return str.slice(4,8)+str.slice(0,4)
+}

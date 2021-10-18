@@ -2,6 +2,7 @@ import { IP } from "./constants.mjs";
 import { plainText } from "./constants.mjs";
 import { initialKey, p10Positions, p8Positions } from "./constants.mjs";
 import { leftShiftOperation, permutations } from "./keyOps.mjs";
+import { sw } from "./textOps.mjs";
 import { resize } from "./textOps.mjs";
 import { f } from "./textOps.mjs";
 
@@ -24,6 +25,8 @@ const leftSide  = afterIP.slice(0,4);
 const rightSide = afterIP.slice(4,8);
 const fOutput = f(leftSide, rightSide, p8PermutedKey);
 console.log(`fOutput: ${fOutput}`);
+const afterSW = sw(fOutput);
+console.log(`afterSW: ${afterSW}`);
 
 // console.log(`Double Circular Left Shift for Key 2: ${leftShiftedKey2}`);
 // console.log(`Key 2 (p8): ${p8PermutedKey2}`);
