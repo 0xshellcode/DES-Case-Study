@@ -1,17 +1,14 @@
 import { IP } from "./constants.mjs";
+import { initialKey } from "./constants.mjs";
 import { INVP } from "./constants.mjs";
 import { plainText } from "./constants.mjs";
-import { initialKey, p10Positions, p8Positions } from "./constants.mjs";
-import { leftShiftOperation, permutations } from "./keyOps.mjs";
+import { getKeys } from "./keyOps.mjs";
+import { permutations } from "./keyOps.mjs";
 import { sw } from "./textOps.mjs";
 import { f } from "./textOps.mjs";
 
-const p10PermutedKey = permutations(p10Positions, initialKey);
-const leftShiftedKey1 = leftShiftOperation(p10PermutedKey, 1);
-const p8PermutedKey = permutations(p8Positions, leftShiftedKey1);
-const leftShiftedKey2 = leftShiftOperation(leftShiftedKey1, 2);
-const p8PermutedKey2 = permutations(p8Positions, leftShiftedKey2);
 
+const {p8PermutedKey, p8PermutedKey2} = getKeys(initialKey);
 
 const afterIP = permutations(IP, plainText);
 console.log(`After IP: ${afterIP}`);
