@@ -1,8 +1,5 @@
 export const permutations = (permutedPositions, stringToPermute) => {
-  const result = permutedPositions
-    .map((newPosition) => stringToPermute[newPosition - 1])
-    .join('');
-
+  const result = permutedPositions.map( itr => stringToPermute[itr - 1]).join('');
   return result;
 };
 
@@ -16,3 +13,4 @@ export const leftShiftOperation = (str, leftShifts) => {
     part2.slice(0, leftShifts)
   );
 };
+

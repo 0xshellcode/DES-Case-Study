@@ -1,4 +1,5 @@
 import { IP } from "./constants.mjs";
+import { INVP } from "./constants.mjs";
 import { plainText } from "./constants.mjs";
 import { initialKey, p10Positions, p8Positions } from "./constants.mjs";
 import { leftShiftOperation, permutations } from "./keyOps.mjs";
@@ -12,22 +13,19 @@ const p8PermutedKey = permutations(p8Positions, leftShiftedKey1);
 const leftShiftedKey2 = leftShiftOperation(leftShiftedKey1, 2);
 const p8PermutedKey2 = permutations(p8Positions, leftShiftedKey2);
 
-//getting K1
-// console.log(`Initial Key: ${initialKey}`);
-// console.log(`Permuted Key (P10): ${p10PermutedKey}`);
-// console.log(`Circular Left Shift for Key 1: ${leftShiftedKey1}`);
-// console.log(`Permuted Key (P8): ${p8PermutedKey}`);
 
-//prepping ciphertext
 const afterIP = permutations(IP, plainText);
-// console.log(`After IP: ${afterIP}`);
+console.log(`After IP: ${afterIP}`);
 const leftSide  = afterIP.slice(0,4);
 const rightSide = afterIP.slice(4,8);
 const fOutput = f(leftSide, rightSide, p8PermutedKey);
 console.log(`fOutput: ${fOutput}`);
 const afterSW = sw(fOutput);
 console.log(`afterSW: ${afterSW}`);
-
-// console.log(`Double Circular Left Shift for Key 2: ${leftShiftedKey2}`);
-// console.log(`Key 2 (p8): ${p8PermutedKey2}`);
+const ls2  = afterSW.slice(0,4);
+const rs2 = afterSW.slice(4,8);
+const fOutput2 = f(ls2, rs2, p8PermutedKey2);
+console.log(`fOutput2: ${fOutput2}`);
+const afterINVP = permutations(INVP, fOutput2);
+console.log(`afterINVP: ${afterINVP}`);
 
