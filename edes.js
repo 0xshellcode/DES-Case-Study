@@ -31,8 +31,14 @@ console.log('----');
 const cipherText = encryptedText.split(' ').slice(0,-1);
 let afterSDES = ''
 for(const letter of cipherText){
-    console.log(letter);
     afterSDES += String.fromCharCode(parseInt(process(letter, false), 2));
 }
-console.log(afterSDES);
 
+const strAsMatrix = setCols(afterSDES, 3);
+console.log(strAsMatrix);
+const drow1 = strAsMatrix[0];
+const drow2 = circularShift(strAsMatrix[1].join(''),2).split('')
+const drow3 = circularShift(strAsMatrix[2].join(''),1).split('')
+const reverseShiftRowMatrix = getStringFromMatrix([drow1,drow2, drow3]);
+console.log([drow1,drow2, drow3]);
+console.log(reverseShiftRowMatrix);
