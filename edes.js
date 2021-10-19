@@ -5,7 +5,8 @@ import { setCols } from "./enhancedOps.mjs";
 import { circularShift } from "./keyOps.mjs";
 import { resize } from "./textOps.mjs";
 
-const plaintext = 'DID YOU SEE';
+const plaintext = 'didyousee';
+console.log('Plaintext', plaintext);
 const fixedColsMatrix = setCols(plaintext.replace(/ /g, ''), 3);
 let rounds = 2;
 let shiftedColsMatrix = fixedColsMatrix;
@@ -35,10 +36,14 @@ for(const letter of cipherText){
 }
 
 const strAsMatrix = setCols(afterSDES, 3);
-console.log(strAsMatrix);
 const drow1 = strAsMatrix[0];
 const drow2 = circularShift(strAsMatrix[1].join(''),2).split('')
 const drow3 = circularShift(strAsMatrix[2].join(''),1).split('')
-const reverseShiftRowMatrix = getStringFromMatrix([drow1,drow2, drow3]);
-console.log([drow1,drow2, drow3]);
-console.log(reverseShiftRowMatrix);
+const reverseShiftRowMatrix = [drow1,drow2, drow3];
+rounds = 2;
+let reverseSCTM = reverseShiftRowMatrix;
+while(rounds > 0){
+    reverseSCTM = transposeColumns(reverseSCTM, [3,1,2]);
+    rounds--;
+}
+console.log('Decrypted Text: ', getStringFromMatrix(reverseSCTM));
