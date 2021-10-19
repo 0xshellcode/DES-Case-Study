@@ -1,5 +1,5 @@
 // For the keys
-export const initialKey = '1010000010';
+export const initialKey = '0010010111';
 export const p10Positions = [3, 5, 2, 7, 4, 10, 1, 9, 8, 6];
 export const p8Positions = [6, 3, 7, 4, 8, 5, 10, 9];
 

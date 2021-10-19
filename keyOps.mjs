@@ -11,7 +11,7 @@ export const leftShiftOperation = (str, leftShifts) => {
   return circularShift(part1, leftShifts)+circularShift(part2, leftShifts);
 };
 
-const circularShift = (str, index) => {
+export const circularShift = (str, index) => {
   let rotated= ''
   for(let i=index; i< str.length;i++){
     rotated+=str[i];
